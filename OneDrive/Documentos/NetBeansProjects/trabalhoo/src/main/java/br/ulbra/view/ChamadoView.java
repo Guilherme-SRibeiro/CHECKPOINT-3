@@ -9,6 +9,8 @@ import javax.swing.SwingConstants;
 import java.awt.Color;
 import java.awt.Font;
 import javax.swing.table.DefaultTableModel;
+import br.ulbra.model.Usuario;
+import br.ulbra.model.Equipamento;
 
 public class ChamadoView extends javax.swing.JFrame {
     
@@ -18,6 +20,11 @@ public class ChamadoView extends javax.swing.JFrame {
     
     public ChamadoView() {
         initComponents();
+        
+        comboEquipamento.removeAllItems();
+        comboEquipamento.addItem("PC-01");
+        comboEquipamento.addItem("PC-02");
+
         DefaultTableCellRenderer centralizado = new DefaultTableCellRenderer();
         centralizado.setHorizontalAlignment(SwingConstants.CENTER);
 
@@ -29,6 +36,8 @@ public class ChamadoView extends javax.swing.JFrame {
         
         carregarTabela();
         
+    
+    
         tabelaChamados.getColumnModel().getColumn(0).setPreferredWidth(50);  
         tabelaChamados.getColumnModel().getColumn(1).setPreferredWidth(120); 
         tabelaChamados.getColumnModel().getColumn(2).setPreferredWidth(80); 
@@ -44,59 +53,64 @@ public class ChamadoView extends javax.swing.JFrame {
         tabelaChamados.getTableHeader().setFont(new Font("Segoe UI", Font.BOLD, 14));
         tabelaChamados.getTableHeader().setBackground(new Color(30, 30, 30));
         tabelaChamados.getTableHeader().setForeground(Color.WHITE);
-     }
+    } 
     
-    public void carregarTabela() {
-        DefaultTableModel modelo = (DefaultTableModel) tabelaChamados.getModel();
-        modelo.setRowCount(0);
+public void carregarTabela() {
+    DefaultTableModel modelo = (DefaultTableModel) tabelaChamados.getModel();
+    modelo.setRowCount(0);
 
-        List<Chamado> lista = controller.listar();
+    List<Chamado> lista = controller.listar();
 
-        for (Chamado c : lista) {
-            modelo.addRow(new Object[]{
-                c.getId(),
-                c.getSolicitante(),
-                c.getSala(),
-                c.getProblemaRelatado(),
-                c.getPrioridade(),
-                c.getDiagnosticoTecnico()
-            });
-        }
+    for (Chamado c : lista) {
+        modelo.addRow(new Object[]{
+            c.getId(),
+            c.getUsuario().getNome(),
+            c.getEquipamento().getTagPatrimonio(),
+            c.getProblemaRelatado(),
+            c.getPrioridade(),
+            c.getDiagnosticoTecnico()
+        });
     }
+} 
     
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
+        txtSolicitante = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
+        txtSala = new javax.swing.JTextField();
+        jLabel2 = new javax.swing.JLabel();
+        txtTag = new javax.swing.JTextField();
+        btnSalvar = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         txtProblema = new javax.swing.JTextArea();
         jScrollPane2 = new javax.swing.JScrollPane();
         txtDiagnostico = new javax.swing.JTextArea();
-        txtSolicitante = new javax.swing.JTextField();
-        txtTag = new javax.swing.JTextField();
         txtPrioridade = new javax.swing.JTextField();
-        txtSala = new javax.swing.JTextField();
         jScrollPane3 = new javax.swing.JScrollPane();
         tabelaChamados = new javax.swing.JTable();
-        btnSalvar = new javax.swing.JButton();
         btnEditar = new javax.swing.JButton();
         btnExcluir = new javax.swing.JButton();
+        comboEquipamento = new javax.swing.JComboBox<>();
+        jButton2 = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-
-        jLabel1.setText("Solicitante");
+        jLabel4.setText("Sala");
 
         jLabel2.setText("Tag");
 
-        jLabel3.setText("Prioridade");
+        btnSalvar.setText("Salvar");
+        btnSalvar.addActionListener(this::btnSalvarActionPerformed);
 
-        jLabel4.setText("Sala");
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        jLabel1.setText("Equipamento");
+
+        jLabel3.setText("Prioridade");
 
         jLabel5.setText("Problema Relatado");
 
@@ -125,14 +139,17 @@ public class ChamadoView extends javax.swing.JFrame {
         });
         jScrollPane3.setViewportView(tabelaChamados);
 
-        btnSalvar.setText("Salvar");
-        btnSalvar.addActionListener(this::btnSalvarActionPerformed);
-
         btnEditar.setText("Editar");
         btnEditar.addActionListener(this::btnEditarActionPerformed);
 
         btnExcluir.setText("Excluir");
         btnExcluir.addActionListener(this::btnExcluirActionPerformed);
+
+        comboEquipamento.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        comboEquipamento.addActionListener(this::comboEquipamentoActionPerformed);
+
+        jButton2.setText("Salvar");
+        jButton2.addActionListener(this::jButton2ActionPerformed);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -140,86 +157,67 @@ public class ChamadoView extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(44, 44, 44)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel6)
-                            .addComponent(jLabel5)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 470, Short.MAX_VALUE)
-                                .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING))
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 470, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 1161, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addContainerGap(65, Short.MAX_VALUE))
+                        .addContainerGap(53, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel3)
-                                .addGap(18, 18, 18)
-                                .addComponent(txtPrioridade))
+                                .addGap(0, 0, Short.MAX_VALUE)
+                                .addComponent(jButton2))
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel1)
-                                .addGap(18, 18, 18)
-                                .addComponent(txtSolicitante, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel2)
-                                .addGap(18, 18, 18)
-                                .addComponent(txtTag)))
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(227, 227, 227)
-                                .addComponent(jLabel4)
-                                .addGap(18, 18, 18)
-                                .addComponent(txtSala, javax.swing.GroupLayout.PREFERRED_SIZE, 209, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jLabel1)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(comboEquipamento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(jLabel5)
+                                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 470, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jLabel3)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(txtPrioridade, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(btnEditar)
-                                    .addComponent(btnSalvar)
-                                    .addComponent(btnExcluir))
-                                .addGap(157, 157, 157))))))
+                                    .addComponent(btnExcluir))))
+                        .addGap(157, 157, 157))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addContainerGap()
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(30, 30, 30)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(txtSolicitante, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel1))
-                        .addGap(18, 18, 18))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(48, 48, 48)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(txtSala, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel4))
-                        .addGap(25, 25, 25)))
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
-                    .addComponent(txtTag, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnSalvar))
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(25, 25, 25)
+                            .addComponent(jLabel1)
+                            .addComponent(comboEquipamento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel3)
-                            .addComponent(txtPrioridade, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(txtPrioridade, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(47, 47, 47)
+                        .addComponent(jLabel5)
+                        .addGap(18, 18, 18)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(42, 42, 42)
-                        .addComponent(btnEditar)))
-                .addGap(34, 34, 34)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel5)
-                    .addComponent(btnExcluir))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(14, 14, 14)
+                        .addGap(108, 108, 108)
+                        .addComponent(jButton2)
+                        .addGap(35, 35, 35)
+                        .addComponent(btnEditar)
+                        .addGap(34, 34, 34)
+                        .addComponent(btnExcluir)))
+                .addGap(18, 18, 18)
                 .addComponent(jLabel6)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(18, 18, 18)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(36, 36, 36)
+                .addGap(42, 42, 42)
                 .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 298, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(30, Short.MAX_VALUE))
+                .addContainerGap(15, Short.MAX_VALUE))
         );
 
         pack();
@@ -230,31 +228,50 @@ public class ChamadoView extends javax.swing.JFrame {
     }//GEN-LAST:event_txtPrioridadeActionPerformed
 
     private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
-           Chamado c = new Chamado();
+        System.out.println("FUNCIONOU");
+        
+        Chamado c = new Chamado();
+        
+        Usuario u = new Usuario();
+        u.setIdUsuario(1);
+        c.setUsuario(u);
+            
+        String item = comboEquipamento.getSelectedItem().toString();
 
-            c.setSolicitante(txtSolicitante.getText());
-            c.setSala(txtSala.getText());
-            c.setEquipamentoTag(txtTag.getText());
-            c.setProblemaRelatado(txtProblema.getText());
-            c.setDiagnosticoTecnico(txtDiagnostico.getText());
-            c.setPrioridade(txtPrioridade.getText());
+        Equipamento eq = new Equipamento();
 
-    controller.salvar(c);
+        if (item.equals("PC-01")) {
+            eq.setIdEquipamento(1);
+        } else if (item.equals("PC-02")) {
+            eq.setIdEquipamento(2);
+        }
 
-    carregarTabela();
+        c.setEquipamento(eq);
+
+        c.setProblemaRelatado(txtProblema.getText());
+        c.setDiagnosticoTecnico(txtDiagnostico.getText());
+        c.setPrioridade(txtPrioridade.getText());
+        c.setStatus("PENDENTE");
+
+        controller.salvar(c);
+        carregarTabela();
     }//GEN-LAST:event_btnSalvarActionPerformed
 
     private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
-    
-    int linha = tabelaChamados.getSelectedRow();
+     int linha = tabelaChamados.getSelectedRow();
 
     if (linha != -1) {
         Chamado c = new Chamado();
 
-        c.setId((int) tabelaChamados.getValueAt(linha, 0));
+        c.setId((long) tabelaChamados.getValueAt(linha, 0));
 
-        c.setSolicitante(txtSolicitante.getText());
-        c.setSala(txtSala.getText());
+        Usuario u = new Usuario();
+        u.setIdUsuario(1);
+        c.setUsuario(u);
+
+        Equipamento eq = (Equipamento) comboEquipamento.getSelectedItem();
+        c.setEquipamento(eq);
+
         c.setProblemaRelatado(txtProblema.getText());
         c.setPrioridade(txtPrioridade.getText());
         c.setDiagnosticoTecnico(txtDiagnostico.getText());
@@ -265,36 +282,84 @@ public class ChamadoView extends javax.swing.JFrame {
     } else {
         javax.swing.JOptionPane.showMessageDialog(null, "Selecione uma linha!");
     }
+
           }//GEN-LAST:event_btnEditarActionPerformed
 
     private void btnExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcluirActionPerformed
-           int linha = tabelaChamados.getSelectedRow();
+    int linha = tabelaChamados.getSelectedRow();
 
-            if (linha != -1) {
-                int id = (int) tabelaChamados.getValueAt(linha, 0);
-                controller.excluir(id);
-                carregarTabela();
-            }
+    System.out.println("CLICOU EXCLUIR");
+    System.out.println("Linha: " + linha);
+
+    if (linha != -1) {
+        long id = (long) tabelaChamados.getValueAt(linha, 0);
+
+        controller.excluir((int) id);
+
+        carregarTabela();
+    } else {
+        javax.swing.JOptionPane.showMessageDialog(null, "Selecione uma linha!");
+    }
     }//GEN-LAST:event_btnExcluirActionPerformed
 
     private void tabelaChamadosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabelaChamadosMouseClicked
-            int linha = tabelaChamados.getSelectedRow();
+    int linha = tabelaChamados.getSelectedRow();
 
-    txtSolicitante.setText(tabelaChamados.getValueAt(linha, 1).toString());
-    txtSala.setText(tabelaChamados.getValueAt(linha, 2).toString());
     txtProblema.setText(tabelaChamados.getValueAt(linha, 3).toString());
     txtPrioridade.setText(tabelaChamados.getValueAt(linha, 4).toString());
     txtDiagnostico.setText(tabelaChamados.getValueAt(linha, 5).toString());
     }//GEN-LAST:event_tabelaChamadosMouseClicked
 
+    private void comboEquipamentoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboEquipamentoActionPerformed
+
+    }//GEN-LAST:event_comboEquipamentoActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+                                        
+    Chamado c = new Chamado();
+
+    Usuario u = new Usuario();
+    u.setIdUsuario(1);
+    c.setUsuario(u);
+
+    String item = comboEquipamento.getSelectedItem().toString();
+
+    Equipamento eq = new Equipamento();
+
+    if (item.equals("PC-01")) {
+        eq.setIdEquipamento(1);
+    } else if (item.equals("PC-02")) {
+        eq.setIdEquipamento(2);
+    }
+
+    c.setEquipamento(eq);
+
+    c.setProblemaRelatado(txtProblema.getText());
+    c.setDiagnosticoTecnico(txtDiagnostico.getText());
+    c.setPrioridade(txtPrioridade.getText());
+    c.setStatus("PENDENTE");
+
+    controller.salvar(c);
+
+    carregarTabela();
+
+    
+    txtProblema.setText("");
+    txtDiagnostico.setText("");
+    txtPrioridade.setText("");
+
+    javax.swing.JOptionPane.showMessageDialog(null, "Salvo com sucesso!");
+    }//GEN-LAST:event_jButton2ActionPerformed
+
     public static void main(String args[]) {
-        java.awt.EventQueue.invokeLater(() -> new ChamadoView().setVisible(true));
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnEditar;
     private javax.swing.JButton btnExcluir;
     private javax.swing.JButton btnSalvar;
+    private javax.swing.JComboBox<String> comboEquipamento;
+    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

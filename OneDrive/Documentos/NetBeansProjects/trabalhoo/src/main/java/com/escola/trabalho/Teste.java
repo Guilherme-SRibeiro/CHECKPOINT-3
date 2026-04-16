@@ -2,6 +2,8 @@ package com.escola.trabalho;
 
 import br.ulbra.controller.ChamadoController;
 import br.ulbra.model.Chamado;
+import br.ulbra.model.Usuario;
+import br.ulbra.model.Equipamento;
 
 public class Teste {
     public static void main(String[] args) {
@@ -9,19 +11,22 @@ public class Teste {
         ChamadoController controller = new ChamadoController();
 
         Chamado c = new Chamado();
-        c.setSolicitante("Professor Joao");
-        c.setSala("Lab 1");
-        c.setEquipamentoTag("PC-01");
+
+        // usuario
+        Usuario u = new Usuario();
+        u.setIdUsuario(1);
+
+        // equipamento
+        Equipamento eq = new Equipamento();
+        eq.setIdEquipamento(1);
+
+        c.setUsuario(u);
+        c.setEquipamento(eq);
+
         c.setProblemaRelatado("Computador nao liga");
         c.setDiagnosticoTecnico("Fonte queimada");
         c.setPrioridade("ALTA");
-        
-        c.setSolicitante("Professor Jorge");
-        c.setSala("Lab 12");
-        c.setEquipamentoTag("PC-10");
-        c.setProblemaRelatado("Monitor nao da video");
-        c.setDiagnosticoTecnico("Cabo Estragou");
-        c.setPrioridade("MEDIA");
+        c.setStatus("PENDENTE");
 
         controller.salvar(c);
 
@@ -30,7 +35,6 @@ public class Teste {
         for (Chamado ch : controller.listar()) {
             System.out.println(
                 ch.getId() + " - " +
-                ch.getSolicitante() + " - " +
                 ch.getProblemaRelatado() + " - " +
                 ch.getPrioridade()
             );

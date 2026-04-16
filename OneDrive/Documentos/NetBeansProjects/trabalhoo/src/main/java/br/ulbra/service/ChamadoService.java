@@ -11,8 +11,8 @@ public class ChamadoService {
 
     public void salvar(Chamado c) {
 
-        if (c.getSolicitante() == null || c.getSolicitante().isEmpty()) {
-            throw new RuntimeException("Solicitante obrigatório");
+        if (c.getUsuario() == null) {
+            throw new RuntimeException("Usuário obrigatório");
         }
 
         if (c.getProblemaRelatado() == null || c.getProblemaRelatado().isEmpty()) {
