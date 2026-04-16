@@ -344,7 +344,7 @@ public void carregarTabela() {
     carregarTabela();
 
     
-    txtProblema.setText("");
+     txtProblema.setText("");
     txtDiagnostico.setText("");
     txtPrioridade.setText("");
 

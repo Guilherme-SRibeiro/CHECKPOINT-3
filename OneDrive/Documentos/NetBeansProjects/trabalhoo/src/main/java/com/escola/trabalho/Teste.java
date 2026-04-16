@@ -11,12 +11,10 @@ public class Teste {
         ChamadoController controller = new ChamadoController();
 
         Chamado c = new Chamado();
-
-        // usuario
+        
         Usuario u = new Usuario();
         u.setIdUsuario(1);
 
-        // equipamento
         Equipamento eq = new Equipamento();
         eq.setIdEquipamento(1);
 

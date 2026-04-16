@@ -8,4 +8,4 @@ public interface ChamadoDAO {
     List<Chamado> listar();
     void atualizar(Chamado c);
     void excluir(int id);
- }
+}

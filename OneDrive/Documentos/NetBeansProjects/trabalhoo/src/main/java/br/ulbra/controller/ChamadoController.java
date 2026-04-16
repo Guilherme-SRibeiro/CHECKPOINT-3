@@ -10,7 +10,7 @@ public class ChamadoController {
 
     public void salvar(Chamado c) {
         service.salvar(c);
-    }
+     }
 
     public List<Chamado> listar() {
         return service.listar();

@@ -10,7 +10,7 @@ public class Equipamento {
     public Equipamento(int id, String tag) {
         this.idEquipamento = id;
         this.tagPatrimonio = tag;
-    }
+     }
 
     public int getIdEquipamento() {
         return idEquipamento;

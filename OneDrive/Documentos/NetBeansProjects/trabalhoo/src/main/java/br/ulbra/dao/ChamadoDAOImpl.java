@@ -33,7 +33,7 @@ public void salvar(Chamado chamado) {
 
     } catch (Exception e) {
         e.printStackTrace();
-    }
+     }
 }
 
 @Override

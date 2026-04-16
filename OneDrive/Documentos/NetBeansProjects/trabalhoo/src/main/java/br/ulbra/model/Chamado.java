@@ -10,8 +10,6 @@ public class Chamado {
     private String prioridade;
     private String status;
 
-    // GETTERS E SETTERS
-
     public Long getId() {
         return id;
     }
